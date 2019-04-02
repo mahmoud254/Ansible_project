@@ -1,0 +1,14 @@
+[web]
+172.31.29.94
+[app]
+172.31.26.51
+[db]
+172.31.24.89
+[general:children]
+web
+app
+db
+
+[general:vars]
+ansible_ssh_user=ec2-user
+

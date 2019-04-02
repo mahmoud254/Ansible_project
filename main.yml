@@ -1,0 +1,29 @@
+---
+- name: install Epel release on all servers
+  hosts: all
+  become: true
+  tasks:
+   - name: istalling Epel
+     yum:
+      name: ['epel-release', 'ntp']
+      state: installed 
+      
+- name: setup db environment
+  hosts: db
+  become: yes
+  roles:
+   - db
+
+- name: setup web server environment
+  hosts: web
+  become: yes
+  roles:
+   - web
+
+- name: setup app environment
+  hosts: app
+  become: yes
+  roles:
+   - app
+
+

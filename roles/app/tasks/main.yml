@@ -1,0 +1,29 @@
+- name: install node and npm
+  yum:
+    name: "{{item}}"
+    state: installed
+  with_items:
+    - nodejs
+    - npm
+
+- name: install forever
+  npm:
+    name: forever
+    state: present
+    global: yes
+
+- name: install git
+  yum:
+    name: git
+    state: installed
+
+- name: copy project files
+  copy:
+    src: nahmReads
+    dest: /home/ec2-user/
+
+- name: install nodeJs server dependencies
+  command: chdir=/home/ec2-user/nahmReads/nodeJS_server npm install
+
+- name: start nodeJs server
+  command: chdir=/home/ec2-user/nahmReads/nodeJS_server npm start
