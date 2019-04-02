@@ -1,0 +1,103 @@
+---
+  AWSTemplateFormatVersion: "2010-09-09"
+
+  Description: "Creates a VPC with Managed NAT, similar to the VPC Wizard at https://console.aws.amazon.com/vpc/home#wizardFullpagePublicAndPrivate: (extended from VPC_with_PublicIPs_And_DNS.template sample)"
+  Parameters:
+    VPCName:
+      Description: The name of the VPC being created.
+      Type: String
+      Default: "VPC Public and Private with NAT"
+
+  Mappings:
+    SubnetConfig:
+      VPC:
+        CIDR: "10.0.0.0/16"
+      Public0:
+        CIDR: "10.0.0.0/24"
+      Private0:
+        CIDR: "10.0.2.0/24"
+
+    # This mapping accounts for the scenario when certain AZs
+    # are not available to use (this differs on a per account
+    # per customer basis). E.g., if the 'b' AZ is not available
+    # in a specific region in one's account then updating the
+    # list contained in the mapping below here will allow a
+    # different AZ to be chosen.
+    AZRegions:
+      ap-northeast-1:
+        AZs: ["a", "b"]
+      ap-northeast-2:
+        AZs: ["a", "b"]
+      ap-south-1:
+        AZs: ["a", "b"]
+      ap-southeast-1:
+        AZs: ["a", "b"]
+      ap-southeast-2:
+        AZs: ["a", "b"]
+      ca-central-1:
+        AZs: ["a", "b"]
+      eu-central-1:
+        AZs: ["a", "b"]
+      eu-west-1:
+        AZs: ["a", "b"]
+      eu-west-2:
+        AZs: ["a", "b"]
+      sa-east-1:
+        AZs: ["a", "b"]
+      us-east-1:
+        AZs: ["a", "b"]
+      us-east-2:
+        AZs: ["a", "b"]
+      us-west-1:
+        AZs: ["a", "b"]
+      us-west-2:
+        AZs: ["a", "b"]
+
+  Resources:
+
+    Master: 
+      Type: "AWS::EC2::Instance"
+      Properties:
+        ImageId: "ami-036affea69a1101c9" 
+        InstanceType: "t2.micro"
+        KeyName: "test"
+        Tags:
+          -
+            Key: "Name"
+            Value: "Master"
+
+    App: 
+      Type: "AWS::EC2::Instance"
+      Properties:
+        ImageId: "ami-036affea69a1101c9" 
+        InstanceType: "t2.micro"
+        KeyName: "test"
+        Tags:
+          -
+            Key: "Name"
+            Value: "LoadServer"
+        
+    WebServer: 
+      Type: "AWS::EC2::Instance"
+      Properties:
+        ImageId: "ami-036affea69a1101c9" 
+        InstanceType: "t2.micro"
+        KeyName: "test"
+        Tags:
+          -
+            Key: "Name"
+            Value: "WebServer"
+        
+    DatabaseServer: 
+      Type: "AWS::EC2::Instance"
+      Properties:
+        ImageId: "ami-036affea69a1101c9" 
+        InstanceType: "t2.micro"
+        KeyName: "test"
+        Tags:
+          -
+            Key: "Name"
+            Value: "DatabaseServer"
+      
+
+    
